@@ -1,0 +1,4 @@
+Slayer,3
+Riku,5
+Kris,4
+Test,4
