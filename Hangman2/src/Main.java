@@ -7,8 +7,6 @@ Limitations/differences from before:
 -The game will tell the user if they have the high score or not.
 - no exceptions are allowed, all exceptions must be caught by the program.*/
 
-import jdk.dynalink.StandardOperation;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,7 +15,6 @@ import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class Main {
 
@@ -31,10 +28,9 @@ public class Main {
             start(game, player);
 
             temp = String.join("", game.wordGuessedSoFar);
-
-            System.out.println("temp: " + temp);
             if(temp.equals(game.word))
             {
+                System.out.println("The word was: " + game.word);
                 System.out.println("You Win!");
 
                 if(player.getScore() >= readHighScoreFromFile())
@@ -56,8 +52,9 @@ public class Main {
         GameBoard.printGameStage(player.getScore()); //get player's live
         printLetterGuessed(game.lettersGuessed);
         printWordGuessed(game.wordGuessedSoFar);
-        String guess = getGuess(game);
+        String guess = getGuessRecursive(game);
         game.lettersGuessed.add(guess);
+        game.sortList();
         game.wordGuessedSoFar = setGuess(game, guess);
         boolean correctGuess = checkGuess(game, guess);
 
@@ -67,6 +64,7 @@ public class Main {
             if(player.getScore() == 0) {
                 GameBoard.printGameStage(0);
                 System.out.println("You Lose");
+                writeToFile(player);
             }
         }
     }
@@ -96,8 +94,29 @@ public class Main {
         return guess;
     }
 
+    public static String getGuessRecursive(GameBoard game){
+        String guess = "";
+        System.out.println("Guess a letter:");
+        Scanner scanner = new Scanner(System.in);
+        guess = scanner.nextLine().toUpperCase();
+
+        if (guess.length() > 1) {
+            System.out.println("only enter a single letter");
+            return getGuessRecursive(game);
+        } else if (!Character.isLetter(guess.charAt(0))) {
+            System.out.println("only letters are allowed");
+            return getGuessRecursive(game);
+        } else if (game.lettersGuessed.contains(guess)) {
+            System.out.println("you already guessed that letter");
+            return getGuessRecursive(game);
+        } else {
+            return guess;
+        }
+    }
+
     public static List<String> setGuess(GameBoard game, String guess)
     {
+        //use intstream as a sub for, forloop. then map an obj to each int.
         return IntStream.range(0, game.word.length())
                 .mapToObj(i->{
                     if(game.wordGuessedSoFar.get(i).equals("_") && game.word.charAt(i) == guess.charAt(0))
@@ -145,6 +164,7 @@ public class Main {
     public static int readHighScoreFromFile()
     {
         int highScore = -1;
+        //get the number from each line and then reduce using max, and finally get the element.
         try{
              highScore = Files.lines(Paths.get("Record.txt"))
                 .map(x->{

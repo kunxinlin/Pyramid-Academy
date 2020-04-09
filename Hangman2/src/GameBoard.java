@@ -28,6 +28,11 @@ public class GameBoard {
         return Arrays.stream((ls.split(""))).map(x -> x = "_").collect(Collectors.toList());
     }
 
+    public void sortList()
+    {
+        lettersGuessed = lettersGuessed.stream().sorted().collect(Collectors.toList());
+    }
+
 
     public static void printGameStage (int stage) throws IOException {
         switch(stage)
