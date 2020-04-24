@@ -19,7 +19,7 @@ public class QueryEmployee {
             List<Employee> employees = session.createQuery("from Employee where company='Pyramid'").getResultList();
             displayQuery(employees);
 
-            employees = session.createQuery("from Employee where company='Delta'").getResultList();
+            employees = session.createQuery("FROM Employee WHERE company='Delta'").getResultList();
             displayQuery(employees);
 
         }finally{
