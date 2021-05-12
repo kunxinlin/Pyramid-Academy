@@ -1,0 +1,2 @@
+Carmen,Smith,csmith@gmail.com,4047568976,101,1
+Edward,Cochran,ec23@gmail.com,40987654,102,0

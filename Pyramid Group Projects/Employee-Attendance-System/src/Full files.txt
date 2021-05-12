@@ -1,0 +1,3 @@
+C:\Users\Edward Cochran\Documents\Files for Git\Employee-Attendance-System\src\Daily Record 2020-04-03.txt
+C:\Users\Edward Cochran\Documents\Files for Git\Employee-Attendance-System\src\Employees.txt
+C:\Users\Edward Cochran\Documents\Files for Git\Employee-Attendance-System\src\DailyRecord.txt
